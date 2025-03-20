@@ -41,14 +41,14 @@ io.on("connection", (socket) => {
     //  Auto-reply if user sends "hi"
     if (msg.toLowerCase() === "hi") {
       setTimeout(() => {
-        io.emit("message", "🤖 Bot: Hello! How can I assist you today?");
+        io.emit("message", " Bot: Hello! How can I assist you today?");
       }, 500);
     }
   });
 
   //  Handle disconnection
   socket.on("disconnect", () => {
-    console.log("❌ Client disconnected:", socket.id);
+    console.log(" Client disconnected:", socket.id);
     connectedClients.delete(socket.id);
   });
 });
@@ -56,11 +56,11 @@ io.on("connection", (socket) => {
 //  MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
+  .then(() => console.log(" MongoDB connected"))
+  .catch((err) => console.error(" MongoDB connection error:", err));
 
 //  Start Server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(` Server running on port ${PORT}`);
 });
