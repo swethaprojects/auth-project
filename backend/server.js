@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
-// ✅ Properly configure Socket.io
+//  configure Socket.io
 const io = new Server(server, {
     cors: {
       origin: "http://localhost:3000", // Allow frontend
@@ -18,27 +18,27 @@ const io = new Server(server, {
     },
   });
 
-// ✅ Maintain connected clients list
+//  Maintain connected clients list
 const connectedClients = new Map(); // {socket.id: email}
 
-// ✅ Socket.io Connection
+//  Socket.io Connection
 io.on("connection", (socket) => {
   console.log("📡 New client connected:", socket.id);
 
-  // ✅ Track connected client
+  //  Track connected client
   socket.on("register", (email) => {
     connectedClients.set(socket.id, email);
-    console.log(`✅ Registered client: ${email}`);
+    console.log(` Registered client: ${email}`);
   });
 
-  // ✅ Handle incoming chat messages
+  //  Handle incoming chat messages
   socket.on("chatMessage", (msg) => {
-    console.log("✅ Message received:", msg);
+    console.log(" Message received:", msg);
 
     // Broadcast message to all connected clients
     io.emit("message", msg);
 
-    // ✅ Auto-reply if user sends "hi"
+    //  Auto-reply if user sends "hi"
     if (msg.toLowerCase() === "hi") {
       setTimeout(() => {
         io.emit("message", "🤖 Bot: Hello! How can I assist you today?");
@@ -46,20 +46,20 @@ io.on("connection", (socket) => {
     }
   });
 
-  // ✅ Handle disconnection
+  //  Handle disconnection
   socket.on("disconnect", () => {
     console.log("❌ Client disconnected:", socket.id);
     connectedClients.delete(socket.id);
   });
 });
 
-// ✅ MongoDB Connection
+//  MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// ✅ Start Server
+//  Start Server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
