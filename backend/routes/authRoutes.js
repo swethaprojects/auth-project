@@ -7,7 +7,7 @@ import nodemailer from "nodemailer";
 const router = express.Router();
 
 // ============================
-// ✅ Utility: Generate JWT Token
+//  Utility: Generate JWT Token
 // ============================
 const generateToken = (user) => {
   if (!process.env.JWT_SECRET) {
@@ -18,11 +18,11 @@ const generateToken = (user) => {
   });
 };
 
-// ✅ Rate Limit Map to avoid multiple OTPs
+//  Rate Limit Map to avoid multiple OTPs
 const otpRateLimit = new Map(); // { email: timestamp }
 
 // ============================
-// ✅ Login with OTP Logic
+//  Login with OTP Logic
 // ============================
 router.post("/login", async (req, res) => {
   const { email, password, otp } = req.body;
@@ -35,7 +35,7 @@ router.post("/login", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // ✅ Check if OTP is provided (Verification Stage)
+    //  Check if OTP is provided (Verification Stage)
     if (otp) {
       if (Date.now() > user.otpExpires) {
         return res.status(400).json({ error: "OTP has expired. Please request a new one." });
@@ -45,7 +45,7 @@ router.post("/login", async (req, res) => {
         return res.status(400).json({ error: "Invalid OTP. Please try again." });
       }
 
-      // ✅ Mark user verified after OTP success
+      //  Mark user verified after OTP success
       user.isVerified = true;
       user.otp = null;
       user.otpExpires = null;
@@ -60,7 +60,7 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    // ✅ Check if user is verified before allowing login
+    //  Check if user is verified before allowing login
     if (!user.isVerified) {
       console.log("User not verified. Sending OTP...");
 
@@ -70,7 +70,7 @@ router.post("/login", async (req, res) => {
         return res.status(429).json({ error: "⚠️ Wait 2 mins before requesting another OTP." });
       }
 
-      // ✅ Generate OTP & Save
+      //  Generate OTP & Save
       const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
       user.otp = otpCode;
       user.otpExpires = Date.now() + 10 * 60 * 1000; // OTP expires in 10 minutes
@@ -98,13 +98,13 @@ router.post("/login", async (req, res) => {
       return res.json({ message: "OTP sent successfully! Please verify OTP." });
     }
 
-    // ✅ Verify password if user is already verified
+    //  Verify password if user is already verified
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    // ✅ Generate JWT after successful password login
+    //  Generate JWT after successful password login
     const token = generateToken(user);
 
     res.json({
