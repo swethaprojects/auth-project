@@ -11,12 +11,12 @@ const Login = () => {
   const [otpRequested, setOtpRequested] = useState(false); // Track if OTP is sent
   const navigate = useNavigate(); // React Router navigate hook
 
-  // ✅ Handle Input Change
+  // Handle Input Change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ✅ Handle Login Request (Send OTP if Needed)
+  //  Handle Login Request (Send OTP if Needed)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -26,13 +26,13 @@ const Login = () => {
         formData
       );
 
-      // ✅ Handle OTP Response
+      //  Handle OTP Response
       if (res.data.message === "OTP sent successfully! Please verify OTP.") {
-        alert("✅ OTP sent to your email. Please enter the OTP.");
+        alert(" OTP sent to your email. Please enter the OTP.");
         setOtpRequested(true);
       } else if (res.data.token) {
-        // ✅ Successful Login After OTP or Verified User
-        alert("🎉 Login Successful!");
+        //  Successful Login After OTP or Verified User
+        alert(" Login Successful!");
         sessionStorage.setItem("token", res.data.token);
         navigate("/dashboard"); // Redirect to dashboard
       }
@@ -41,7 +41,7 @@ const Login = () => {
     }
   };
 
-  // ✅ Verify OTP if Requested
+  //  Verify OTP if Requested
   const verifyOtp = async () => {
     try {
       const res = await axios.post(
@@ -50,7 +50,7 @@ const Login = () => {
       );
 
       if (res.data.token) {
-        alert("🎉 OTP Verified & Login Successful!");
+        alert(" OTP Verified & Login Successful!");
         sessionStorage.setItem("token", res.data.token);
         navigate("/dashboard"); // Redirect to dashboard
       }
