@@ -9,7 +9,7 @@ const ForgotPassword = () => {
   // Handle Forgot Password Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("🔁 Sending password reset link...");
+    console.log(" Sending password reset link...");
 
     try {
       //  Use correct backend URL (Check PORT if different)
@@ -20,7 +20,7 @@ const ForgotPassword = () => {
       console.log(" Reset link sent:", res.data);
       setMessage("Password reset link sent to your email.");
     } catch (error) {
-      console.error("❌ Error:", error.response?.data?.error || "Unknown error");
+      console.error(" Error:", error.response?.data?.error || "Unknown error");
       setMessage("Failed to send reset link. Please try again.");
     }
   };
