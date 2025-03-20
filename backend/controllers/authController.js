@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // =========================
-// ✅ Generate JWT Token
+//  Generate JWT Token
 // =========================
 const generateToken = (id) => {
   if (!process.env.JWT_SECRET) {
@@ -16,7 +16,7 @@ const generateToken = (id) => {
 };
 
 // =========================
-// ✅ Register User
+//  Register User
 // =========================
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -52,7 +52,7 @@ export const registerUser = async (req, res) => {
 };
 
 // =========================
-// ✅ Login User
+//  Login User
 // =========================
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
