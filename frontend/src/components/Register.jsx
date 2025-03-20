@@ -35,7 +35,7 @@ const Register = () => {
     try {
       console.log("Registering user...");
       const data = await registerUser(formData);
-      alert("🎉 User Registered Successfully!");
+      alert(" User Registered Successfully!");
       console.log(" User Registered:", data);
 
       //  Send OTP after successful registration
