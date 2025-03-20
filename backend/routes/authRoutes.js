@@ -67,7 +67,7 @@ router.post("/login", async (req, res) => {
       // Rate limiting: Avoid multiple OTP requests within 2 mins
       const lastSentTime = otpRateLimit.get(email);
       if (lastSentTime && Date.now() - lastSentTime < 120000) {
-        return res.status(429).json({ error: "⚠️ Wait 2 mins before requesting another OTP." });
+        return res.status(429).json({ error: " Wait 2 mins before requesting another OTP." });
       }
 
       //  Generate OTP & Save
@@ -77,7 +77,7 @@ router.post("/login", async (req, res) => {
       await user.save();
       otpRateLimit.set(email, Date.now());
 
-      // ✅ Send OTP via Email
+      //  Send OTP via Email
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -94,7 +94,7 @@ router.post("/login", async (req, res) => {
       };
 
       await transporter.sendMail(mailOptions);
-      console.log("✅ OTP Sent Successfully!");
+      console.log(" OTP Sent Successfully!");
       return res.json({ message: "OTP sent successfully! Please verify OTP." });
     }
 
@@ -112,7 +112,7 @@ router.post("/login", async (req, res) => {
       token,
     });
   } catch (error) {
-    console.error("❌ Error during login:", error);
+    console.error(" Error during login:", error);
     res.status(500).json({ error: "Server error during login" });
   }
 });
