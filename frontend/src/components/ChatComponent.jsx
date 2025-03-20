@@ -3,35 +3,35 @@ import io from "socket.io-client";
 
 const socket = io("http://localhost:5000", {
   reconnection: true,
-  reconnectionAttempts: 5, // Retry up to 5 times
-  reconnectionDelay: 1000, // Wait 1 second before trying to reconnect
+  reconnectionAttempts: 5, 
+  reconnectionDelay: 1000,
 });
 
 const ChatComponent = () => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
 
-  // ✅ Listen for incoming messages
+  //  Listen for incoming messages
   useEffect(() => {
     socket.on("message", (msg) => {
-      console.log("✅ Message received:", msg);
+      console.log(" Message received:", msg);
       setChat((prevChat) => [...prevChat, msg]);
     });
 
-    // ✅ Handle socket connection and disconnection
+    //  Handle socket connection and disconnection
     socket.on("connect", () => {
-      console.log(`✅ Connected to server: ${socket.id}`);
+      console.log(` Connected to server: ${socket.id}`);
     });
 
     socket.on("disconnect", () => {
-      console.warn("❌ Disconnected. Trying to reconnect...");
+      console.warn(" Disconnected. Trying to reconnect...");
     });
 
     socket.on("reconnect_attempt", () => {
       console.log("🔁 Attempting to reconnect...");
     });
 
-    // ✅ Cleanup on unmount
+    //  Cleanup on unmount
     return () => {
       socket.off("message"); // Unsubscribe from 'message' event
       socket.off("connect"); // Unsubscribe from 'connect' event
@@ -39,7 +39,7 @@ const ChatComponent = () => {
     };
   }, []);
 
-  // ✅ Send message to backend
+  //  Send message to backend
   const sendMessage = (e) => {
     e.preventDefault();
     if (message.trim()) {
@@ -61,13 +61,13 @@ const ChatComponent = () => {
           padding: "10px",
         }}
       >
-        {/* ✅ Display chat messages */}
+        {/*  Display chat messages */}
         {chat.map((msg, index) => (
           <p key={index}>{msg}</p>
         ))}
       </div>
 
-      {/* ✅ Message Input Form */}
+      {/*  Message Input Form */}
       <form onSubmit={sendMessage}>
         <input
           type="text"
